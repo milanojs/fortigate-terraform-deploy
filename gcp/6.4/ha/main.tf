@@ -2,22 +2,22 @@
 terraform {
   required_version = ">=0.12.0"
   required_providers {
-    google      = "2.11.0"
-    google-beta = "2.13"
+    google      = "3.42"
+    google-beta = "3.42"
   }
 }
 provider "google" {
-  credentials = file("${var.account}")
-  project     = var.project
-  region      = "us-central1"
-  zone        = "us-central1-c"
+  //credentials = file("${var.account}")
+  project = var.project
+  region  = "us-central1"
+  zone    = "us-central1-c"
 
 }
 provider "google-beta" {
-  credentials = file("${var.account}")
-  project     = var.project
-  region      = var.region
-  zone        = var.zone
+  //credentials = file("${var.account}")
+  project = var.project
+  region  = var.region
+  zone    = var.zone_a
 }
 
 # Randomize string to avoid duplication
@@ -33,7 +33,7 @@ resource "google_compute_disk" "logdisk" {
   name = "log-disk-${random_string.random_name_post.result}"
   size = 30
   type = "pd-standard"
-  zone = var.zone
+  zone = var.zone_a
 }
 
 # Create log disk for passive
@@ -41,7 +41,7 @@ resource "google_compute_disk" "logdisk2" {
   name = "log-disk2-${random_string.random_name_post.result}"
   size = 30
   type = "pd-standard"
-  zone = var.zone
+  zone = var.zone_a
 }
 
 ########### Network Related
@@ -228,7 +228,7 @@ resource "google_compute_address" "static3" {
 resource "google_compute_instance" "default" {
   name           = "fgt-${random_string.random_name_post.result}"
   machine_type   = var.machine
-  zone           = var.zone
+  zone           = var.zone_a
   can_ip_forward = "true"
 
   tags = ["allow-fgt", "allow-internal", "allow-sync", "allow-mgmt"]
@@ -268,7 +268,7 @@ resource "google_compute_instance" "default" {
 
   metadata = {
     user-data = "${data.template_file.setup-active.rendered}"
-    license = fileexists("${path.module}/${var.licenseFile}") ? "${file(var.licenseFile)}" : null
+    license   = fileexists("${path.module}/${var.licenseFile}") ? "${file(var.licenseFile)}" : null
   }
   service_account {
     scopes = ["userinfo-email", "compute-rw", "storage-ro", "cloud-platform"]
@@ -283,7 +283,7 @@ resource "google_compute_instance" "default" {
 resource "google_compute_instance" "default2" {
   name           = "fgt-2-${random_string.random_name_post.result}"
   machine_type   = var.machine
-  zone           = var.zone
+  zone           = var.zone_a
   can_ip_forward = "true"
 
   tags = ["allow-fgt", "allow-internal", "allow-sync", "allow-mgmt"]
@@ -317,7 +317,7 @@ resource "google_compute_instance" "default2" {
   }
   metadata = {
     user-data = "${data.template_file.setup-passive.rendered}"
-    license = fileexists("${path.module}/${var.licenseFile2}") ? "${file(var.licenseFile2)}" : null
+    license   = fileexists("${path.module}/${var.licenseFile2}") ? "${file(var.licenseFile2)}" : null
   }
   service_account {
     scopes = ["userinfo-email", "compute-rw", "storage-ro", "cloud-platform"]
