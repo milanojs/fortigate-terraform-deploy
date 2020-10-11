@@ -4,9 +4,9 @@ variable "region" {
   default = "us-central1" #Default Region
 }
 # GCP zone
-variable "zone" {
+variable "zone_a" {
   type    = string
-  default = "us-central1-c" #Default Zone
+  default = "us-central1-a" #Default Zone
 }
 # GCP project name
 variable "project" {
@@ -14,10 +14,12 @@ variable "project" {
   default = "<gcp project>"
 }
 # GCP service account JSON file.
+/*
 variable "account" {
   type    = string
   default = "account.json"
 }
+*/
 # FortiGate Image name
 # 6.4.2 payg is projects/fortigcp-project-001/global/images/fortinet-fgtondemand-642-20200810-001-w-license
 # 6.4.2 byol is projects/fortigcp-project-001/global/images/fortinet-fgt-642-20200810-001-w-license
