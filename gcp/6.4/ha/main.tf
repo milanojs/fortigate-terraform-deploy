@@ -42,6 +42,7 @@ resource "google_compute_disk" "logdisk2" {
   size = 30
   type = "pd-standard"
   zone = var.zone_b
+
 }
 
 ########### Network Related
@@ -325,8 +326,6 @@ resource "google_compute_instance" "default2" {
     automatic_restart = false
   }
 }
-
-
 
 
 
