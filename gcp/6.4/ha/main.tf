@@ -41,32 +41,31 @@ resource "google_compute_disk" "logdisk2" {
   name = "log-disk2-${random_string.random_name_post.result}"
   size = 30
   type = "pd-standard"
-  zone = var.zone_a
+  zone = var.zone_b
 }
 
 ########### Network Related
 ### VPC ###
+// External
 resource "google_compute_network" "vpc_network" {
   name                    = "vpc-${random_string.random_name_post.result}"
   auto_create_subnetworks = false
 }
-
+// Internal
 resource "google_compute_network" "vpc_network2" {
   name                    = "vpc2-${random_string.random_name_post.result}"
   auto_create_subnetworks = false
 }
-
+// HA
 resource "google_compute_network" "vpc_network3" {
   name                    = "vpc3-${random_string.random_name_post.result}"
   auto_create_subnetworks = false
 }
-
+//Management
 resource "google_compute_network" "vpc_network4" {
   name                    = "vpc4-${random_string.random_name_post.result}"
   auto_create_subnetworks = false
 }
-
-
 
 ### Public Subnet ###
 resource "google_compute_subnetwork" "public_subnet" {
@@ -265,7 +264,6 @@ resource "google_compute_instance" "default" {
       nat_ip = google_compute_address.static2.address
     }
   }
-
   metadata = {
     user-data = "${data.template_file.setup-active.rendered}"
     license   = fileexists("${path.module}/${var.licenseFile}") ? "${file(var.licenseFile)}" : null
@@ -283,7 +281,7 @@ resource "google_compute_instance" "default" {
 resource "google_compute_instance" "default2" {
   name           = "fgt-2-${random_string.random_name_post.result}"
   machine_type   = var.machine
-  zone           = var.zone_a
+  zone           = var.zone_b
   can_ip_forward = "true"
 
   tags = ["allow-fgt", "allow-internal", "allow-sync", "allow-mgmt"]

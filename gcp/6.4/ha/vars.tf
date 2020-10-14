@@ -8,6 +8,13 @@ variable "zone_a" {
   type    = string
   default = "us-central1-a" #Default Zone
 }
+
+# GCP zone
+variable "zone_b" {
+  type    = string
+  default = "us-central1-b" #Default Zone
+}
+
 # GCP project name
 variable "project" {
   type    = string
@@ -25,7 +32,7 @@ variable "account" {
 # 6.4.2 byol is projects/fortigcp-project-001/global/images/fortinet-fgt-642-20200810-001-w-license
 variable "image" {
   type    = string
-  default = "projects/fortigcp-project-001/global/images/fortinet-fgt-642-20200810-001-w-license"
+  default = "projects/fortigcp-project-001/global/images/fortinet-fgtondemand-642-20200810-001-w-license"
 }
 # GCP instance machine type
 variable "machine" {
