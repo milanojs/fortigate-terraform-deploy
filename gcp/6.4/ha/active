@@ -6,19 +6,19 @@ config system interface
         set mode static
         set ip ${active_port1_ip}/${active_port1_mask}
         set allowaccess ping https ssh http fgfm
-        set description "ext"
+        set description "external"
     next
     edit port2
         set mode static
         set ip ${active_port2_ip}/${active_port2_mask}
         set allowaccess ping https ssh http fgfm
-        set description "int"
+        set description "internal"
     next
     edit port3
         set mode static
         set ip ${active_port3_ip}/${active_port3_mask}
         set allowaccess ping https ssh http fgfm
-        set description "sync"
+        set description "HA"
     next
     edit port4
         set mode static
